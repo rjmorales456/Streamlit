@@ -27,13 +27,14 @@ with st.container():
     year_count = job_salaries['work_year'].value_counts()
 
     year_count_df = year_count.reset_index()
-    year_count_df.columns = ['work_year', 'count']
+    year_count_df.columns = ['Work Year', 'count']
+    
+    st.bar_chart(year_count_df,x='Work Year', y='count',color='#AEC6CF',use_container_width=True)
+    
+    # fig1 = px.bar(year_count_df, x='work_year', y='count', color_discrete_sequence=['#AEC6CF'],title='Work Year Count', labels={'work_year': 'Work Year', 'count': 'Job Count Per Year'},)
 
-
-    fig1 = px.bar(year_count_df, x='work_year', y='count', color_discrete_sequence=['#AEC6CF'],title='Work Year Count', labels={'work_year': 'Work Year', 'count': 'Job Count Per Year'},)
-
-    # Show the plot
-    st.plotly_chart(fig1)
+    # # Show the plot
+    # st.plotly_chart(fig1)
     
     st.write("""
              The Graph shows the work years for the past 5 years. And is showed that in 2023 has the highest count for the most works that are being distributed with the total of 8519.
@@ -48,11 +49,14 @@ with st.container():
     year_salary = job_salaries.groupby('work_year')['salary'].sum().sort_values()
 
     year_salary_df = year_salary.reset_index()
-
+    year_salary_df.columns = ["Work Year","Salary"];
+    
+    st.bar_chart(year_salary_df,x='Work Year', y='Salary',color='#AEC6CF',use_container_width=True)
+    
     # Create a bar chart using Plotly Express (px.bar)
-    fig2 = px.bar(year_salary_df, x='work_year', y='salary', title='Total Salary Per Work Year',
-                labels={'work_year': 'Work Year', 'salary': 'Total Salary'},color_discrete_sequence=['#AEC6CF'])
-    st.plotly_chart(fig2)
+    # fig2 = px.bar(year_salary_df, x='work_year', y='salary', title='Total Salary Per Work Year',
+    #             labels={'work_year': 'Work Year', 'salary': 'Total Salary'},color_discrete_sequence=['#AEC6CF'])
+    # st.plotly_chart(fig2)
     st.write("""
              The Graph shows the total salary over the past 5 years of work. The graph shows that the year 2023 has the highest total among the 5 with the total of 1.36 Billion.
              """)
