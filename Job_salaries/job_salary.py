@@ -63,6 +63,23 @@ with st.container():
     # Show the plot
     st.plotly_chart(fig,use_container_width=True)
 
+# Employment Type Distribution
+with st.container():
+    st.header('Employment Type Distribution',divider="gray")
+    
+    employment_type = job_salaries['employment_type'].value_counts()
+    employment_type_df = employment_type.reset_index()
+    employment_type_df.columns = ['Employment Type', 'Count']
+    
+    total_jobs = employment_type_df['Count'].sum()
+    employment_type_df['Percentage'] = (employment_type_df['Count'] / total_jobs) * 100
+
+    employment_type_df['Percentage'] = employment_type_df['Percentage'].map('{:.2f}%'.format)
+    
+    employment_type_df['Count'] = employment_type_df['Count'].map('{:,.0f}'.format)
+    
+    st.table(employment_type_df)
+    
 # Work Year and Experience
 with st.container():
     st.header('Experience Level Distribution by Work Year',divider="gray")
@@ -78,12 +95,11 @@ with st.container():
 with st.container():
     st.header('Most Sought out Job in Data Science',divider="gray")
 
-    
     job_title = job_salaries.groupby(['job_title']).size().nlargest(10)
     job_title_df = job_title.reset_index()
     job_title_df.columns = ['Job Title', 'Count']
     
-    
+    job_title_df['Count'] = job_title_df['Count'].map('{:,.0f}'.format)
     st.table(job_title_df)
     
 # Highest Paying Job Title
@@ -133,4 +149,37 @@ with st.container():
     st.plotly_chart(fig,use_container_width=True)
     
 # Company Location
+with st.container():
+    st.header('Company Location Count',divider="gray")
 
+    company_location = job_salaries['company_location'].value_counts().nlargest(10)
+
+    company_location_df = company_location.reset_index()
+    company_location_df.columns = ['Comapny Location', 'Count']
+    
+    company_location_df['Count'] = company_location_df['Count'].map('{:,.0f}'.format)
+    st.table(company_location_df)
+
+# Salary Currency
+with st.container():
+    st.header('Top Currency of the Salary being Denoted',divider="gray")
+    
+    salary_cuurrency = job_salaries['salary_currency'].value_counts().nlargest(10)
+
+    salary_cuurrency_df = salary_cuurrency.reset_index()
+    salary_cuurrency_df['salary_currency'] = salary_cuurrency_df['salary_currency'].map('{:,.0f}'.format)
+    salary_cuurrency_df.columns = ['Salary Currency', 'Count']
+    
+    st.table(salary_cuurrency_df)
+    
+# Salary Converted to USD and Salary Currency
+with st.container():
+    st.header('Top Salary Currency converted in USD',divider="gray")
+    
+    salary_converted = job_salaries.groupby('salary_currency',)['salary_in_usd'].sum().nlargest(10)
+    
+    salary_converted_df = salary_converted.reset_index()
+    salary_converted_df['salary_in_usd'] = salary_converted_df['salary_in_usd'].map('{:,.0f}'.format)
+    salary_converted_df.columns = ['Salary Currency', 'Salary in USD']
+    
+    st.table(salary_converted_df)
