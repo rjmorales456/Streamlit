@@ -63,6 +63,10 @@ with st.container():
     # Show the plot
     st.plotly_chart(fig,use_container_width=True)
 
+    st.write("""
+             The Chard indicates the level of experience of each employees. 65.3% of the employees has a Senior Level Experience (SE), 23.9% for Mid-Level Experience, 7.74% for Entry Level and 2.97% for Experienced Level for employees.
+             """)
+    
 # Employment Type Distribution
 with st.container():
     st.header('Employment Type Distribution',divider="gray")
@@ -79,6 +83,10 @@ with st.container():
     employment_type_df['Count'] = employment_type_df['Count'].map('{:,.0f}'.format)
     
     st.table(employment_type_df)
+    
+    st.write("""
+             The table shows the the count number and percentage of the type of employment that the employees have. Full-Time (FT) employment has the highest count with 14,772 and 99.56% of employment, 0.18% for Part-time employment (PT), 0.018 for Contracted Employment (CT) and 0.09% for Freelancing (FL).
+             """)
     
 # Work Year and Experience
 with st.container():
@@ -102,6 +110,10 @@ with st.container():
     job_title_df['Count'] = job_title_df['Count'].map('{:,.0f}'.format)
     st.table(job_title_df)
     
+    st.write("""
+             The table shows the most sought out Jobs from 2020 - 2024 in the field of Data science with the top 3 jobs that employees seek are Data Engineer, Data Scientist and Data Analyst.
+             """)
+    
 # Highest Paying Job Title
 with st.container():
     # High Paying Job TItle
@@ -121,9 +133,14 @@ with st.container():
     
     st.table(highest_job_title_df)
     
+    
+    st.write("""
+             The table shows the highest paying job titles from 2020 - 2024. The slider shows the highest paying jobs in each different years. And over the 4 years, Data Scientist is the highest job over the 4 years.
+             """)
+    
 # Work Title and Experience by Salary
 with st.container():
-    st.header('Job Title and Experience Levely by Salary 2020 - 2024',divider="gray")
+    st.header('Job Title and Experience Level by Salary 2020 - 2024',divider="gray")
     
     selected_year = st.selectbox('Select Year', sorted(job_salaries['work_year'].unique()), index=len(job_salaries['work_year'].unique())-1,key='title_experience')
     
@@ -138,15 +155,24 @@ with st.container():
     
     st.table(top_title_experience_df)
     
+    st.write("""
+             The table shows the highest paying job titles from 2020 - 2024 along with the Experience Level. Over the 4 years, Data Scientist has the highes salary over the 4 years with the level experience of Senior Experience (SE).
+             """)
+    
 # Company Size Distribution
 with st.container():
     st.header('Company Size Distribution',divider="gray")
     
     company_size = job_salaries['company_size'].value_counts()
-    fig = px.pie(company_size, values=company_size.values, names=company_size.index,
-                title='Experience Level Distribution',color_discrete_sequence=['#00435c','#006971','#008c59','#81a51c','#ffa600'])
     
-    st.plotly_chart(fig,use_container_width=True)
+    company_size_df = company_size.reset_index()
+    company_size_df.columns = ['Company Size', 'count']
+    
+    st.bar_chart(company_size_df,x='Company Size',y='count',color='#00435c',use_container_width=True)
+    
+    st.write("""
+             The chart shows that company size of the different comapnies. Medium (M) has the most count for the company size with the count of 13,674 while Small (S) company size with the count of 181.
+             """)
     
 # Company Location
 with st.container():
@@ -159,6 +185,10 @@ with st.container():
     
     company_location_df['Count'] = company_location_df['Count'].map('{:,.0f}'.format)
     st.table(company_location_df)
+    
+    st.write("""
+             The table shows the highest country companies that hire employees in the field of Data Science. US has the highest count for company location with 12,975 indicating that most companies that are hiring for data science fields are from the US.
+             """)
 
 # Salary Currency
 with st.container():
@@ -172,6 +202,11 @@ with st.container():
     
     st.table(salary_cuurrency_df)
     
+    st.write("""
+             The table shows which Currency is being used to pay for their employees. This is based on the location of the company on how it is used to pay for their employees. USD is the highest currency is being used to denote for the salary of their employees.
+             """)
+    
+    
 # Salary Converted to USD and Salary Currency
 with st.container():
     st.header('Top Salary Currency converted in USD',divider="gray")
@@ -183,3 +218,7 @@ with st.container():
     salary_converted_df.columns = ['Salary Currency', 'Salary in USD']
     
     st.table(salary_converted_df)
+    
+    st.write("""
+             This section presents the top 10 salary currencies converted to USD. The table below shows the total salaries in USD for each of the top 10 salary currencies. The values are formatted for better readability
+             """)
